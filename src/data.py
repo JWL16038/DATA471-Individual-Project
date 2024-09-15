@@ -5,6 +5,7 @@ import pandas as pd
 import datetime
 
 from clean import clean_dataset
+from utils import get_mean_sessions
 
 absolute_path = Path().resolve()
 raw_path = Path('data/raw')
@@ -160,6 +161,8 @@ def save_data(df):
     print(f"There are {len(df[(df.control == 'Y')]['subject'].unique())} healthy subjects and {len(df[(df.control == 'N')]['subject'].unique())} sick subjects in this dataset")
     print(f"In total, there are {len(list(df['session'].unique()))} sessions in this dataset")
     print(f"There are {len(df[(df.control == 'Y')]['session'].unique())} healthy sessions and {len(df[(df.control == 'N')]['session'].unique())} sick sessions in this dataset")
+    mean_control_session, mean_noncontrol_session = get_mean_sessions(df) 
+    print(f"There are {mean_control_session} mean sessions for control and {mean_noncontrol_session} mean sessions for non-control in this dataset")
     df.to_csv(f"{full_processed_path}/data_cleaned.csv", index=False)
 
 
