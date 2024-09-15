@@ -1,15 +1,23 @@
 # Extract Data script originally written by Marco Vieto. Modified by Jia Wei for this project.
 import os
+from pathlib import Path
 import pandas as pd
 import datetime
 
-root_dir = os.path.abspath(os.curdir)
-data_folder = os.path.join(root_dir, "data/raw")
+from clean import clean_dataset
+
+absolute_path = Path().resolve().parent
+raw_path = Path('data/raw')
+full_raw_path = absolute_path / raw_path
+processed_path = Path('data/processed')
+full_processed_path = absolute_path / processed_path
+final_path = Path('data/final')
+full_final_path = absolute_path / final_path
 
 folder_names = [
     folder
-    for folder in os.listdir(data_folder)
-    if os.path.isdir(os.path.join(data_folder, folder))
+    for folder in os.listdir(full_raw_path)
+    if os.path.isdir(os.path.join(full_raw_path, folder))
 ]
 
 def convert_timestamp_to_date(ts):
@@ -20,7 +28,7 @@ def convert_timestamp_to_date(ts):
 def load_data():
     df = pd.DataFrame()
     for folder_name in folder_names:
-        folder_path = os.path.join(data_folder, folder_name)
+        folder_path = os.path.join(full_raw_path, folder_name)
         subfolder_names = [
             subfolder
             for subfolder in os.listdir(folder_path)
@@ -147,15 +155,16 @@ def load_data():
     ]
     return df
 
-def clean_data():
-    return
-
 def save_data(df):
-    current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    df.to_csv(f"{root_dir}/data/final/data_{current_datetime}.csv", index=False)
+    print(f"In total, there are {len(df['subject'].unique())} subjects in this dataset")
+    print(f"There are {len(df[(df.control == 'Y')]['subject'].unique())} healthy subjects and {len(df[(df.control == 'N')]['subject'].unique())} sick subjects in this dataset")
+    print(f"In total, there are {len(list(df['session'].unique()))} sessions in this dataset")
+    print(f"There are {len(df[(df.control == 'Y')]['session'].unique())} healthy sessions and {len(df[(df.control == 'N')]['session'].unique())} sick sessions in this dataset")
+    # current_datetime = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    df.to_csv(f"{full_raw_path}/data_cleaned.csv", index=False)
 
 
 if __name__ == "__main__":
     df = load_data()
-    print(df)
-
+    df = clean_dataset(df)
+    save_data(df)
