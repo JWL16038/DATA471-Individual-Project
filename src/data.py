@@ -4,7 +4,6 @@ from pathlib import Path
 import pandas as pd
 import datetime
 
-from clean import clean_dataset
 from utils import get_mean_sessions
 
 absolute_path = Path().resolve()
@@ -164,9 +163,3 @@ def save_data(df):
     mean_control_session, mean_noncontrol_session = get_mean_sessions(df) 
     print(f"There are {mean_control_session} mean sessions for control and {mean_noncontrol_session} mean sessions for non-control in this dataset")
     df.to_csv(f"{full_processed_path}/data_cleaned.csv", index=False)
-
-
-if __name__ == "__main__":
-    df = load_data()
-    df = clean_dataset(df)
-    save_data(df)
