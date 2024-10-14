@@ -4,9 +4,9 @@ from pathlib import Path
 import pandas as pd
 import datetime
 
-from utils import get_mean_sessions
+from clean import clean_dataset
 
-absolute_path = Path().resolve()
+absolute_path = Path().resolve().parent
 raw_path = Path('data/raw')
 full_raw_path = absolute_path / raw_path
 processed_path = Path('data/processed')
@@ -155,11 +155,7 @@ def load_data():
     ]
     return df
 
-def save_data(df):
-    print(f"In total, there are {len(df['subject'].unique())} subjects in this dataset")
-    print(f"There are {len(df[(df.control == 'Y')]['subject'].unique())} healthy subjects and {len(df[(df.control == 'N')]['subject'].unique())} sick subjects in this dataset")
-    print(f"In total, there are {len(list(df['session'].unique()))} sessions in this dataset")
-    print(f"There are {len(df[(df.control == 'Y')]['session'].unique())} healthy sessions and {len(df[(df.control == 'N')]['session'].unique())} sick sessions in this dataset")
-    mean_control_session, mean_noncontrol_session = get_mean_sessions(df) 
-    print(f"There are {mean_control_session} mean sessions for control and {mean_noncontrol_session} mean sessions for non-control in this dataset")
+if __name__ == "__main__":
+    df = load_data()
+    df = clean_dataset(df)
     df.to_csv(f"{full_processed_path}/data_cleaned.csv", index=False)
