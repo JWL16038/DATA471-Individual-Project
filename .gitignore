@@ -1,6 +1,7 @@
 /data/**
 !/data/**/
 !/data/**/*.gitkeep
+!/data/**/place_spiral_dataset_here.txt
 
 *.pdf
 *.csv
