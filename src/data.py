@@ -6,7 +6,7 @@ import datetime
 
 from clean import clean_dataset
 
-absolute_path = Path().resolve().parent
+absolute_path = Path().resolve()
 raw_path = Path('data/raw')
 full_raw_path = absolute_path / raw_path
 processed_path = Path('data/processed')
