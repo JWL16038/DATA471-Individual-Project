@@ -1,6 +1,6 @@
 # Clean data script originally written by Marco Vieto. Modified by Jia Wei for this project.
 
-from statistics import mean
+from statistics import median
 import numpy as np
 import pandas as pd
 
@@ -545,7 +545,7 @@ def clean_noncontrol_sessions(df):
     ]
     return df
 
-def get_mean_sessions(df):
+def get_median_sessions(df):
     control_subjects = df[(df.control == 'Y')]['subject'].unique()
     noncontrol_subjects = df[(df.control == 'N')]['subject'].unique()
     control_sessions = []
@@ -556,7 +556,7 @@ def get_mean_sessions(df):
     for c in noncontrol_subjects:
         sessions = len(df[(df.control == 'N') & (df.subject == c)]['session'].unique())
         noncontrol_sessions.append(sessions)
-    return mean(control_sessions), mean(noncontrol_sessions)
+    return median(control_sessions), median(noncontrol_sessions)
 
 def print_statistics(df):
     print(f"Number of records: {len(df)}")
@@ -565,8 +565,8 @@ def print_statistics(df):
     print(f"There are {len(df[(df.control == 'Y')]['session'].unique())} healthy sessions and {len(df[(df.control == 'N')]['session'].unique())} sick sessions in this dataset")
     total_sessions = len(df[(df.control == 'Y')]['session'].unique()) + len(df[(df.control == 'N')]['session'].unique())
     print(f"In total, there are {total_sessions} sessions in this dataset")
-    mean_control_session, mean_noncontrol_session = get_mean_sessions(df) 
-    print(f"There are {mean_control_session} mean sessions for control and {mean_noncontrol_session} mean sessions for non-control in this dataset")
+    median_control_session, median_noncontrol_session = get_median_sessions(df) 
+    print(f"There are {median_control_session} median sessions for control and {median_noncontrol_session} median sessions for non-control in this dataset")
 
     # Check for missing, zero, or empty values
     print("Missing values for each feature:")
