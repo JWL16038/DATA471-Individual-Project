@@ -8,4 +8,8 @@ Unzip the spiral dataset (`SpiralData.zip`) and move the two folders: `Controles
 
 These Python packages were used for this project: `numpy`, `pandas`, `matplotlib`, `seaborn`, `scipy`, `shap`, `scikit-learn` and `imblearn`, which can all be installed using the `pip install` command.
 
-Please check the EDA and modelling notebooks for reproductions of my findings from my report.
+Please check the EDA and modelling notebooks for reproducing of my findings from my report. Both notebooks will load the `data_cleaned.csv` file from the `data/processed` directory, so run `data.py` first before running any cells in both notes.
+
+## Acknowledgements
+
+The clean dataset and data loading scripts were originally written by Marco Vieto for the EDA project and was used in this project with his permission.
